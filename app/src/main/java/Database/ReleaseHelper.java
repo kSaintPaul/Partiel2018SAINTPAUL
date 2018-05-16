@@ -33,6 +33,7 @@ public class ReleaseHelper {
     }
 
     public long AddRelease(Release release, @Nullable String nullColumnHack){
+
         ContentValues contentValues = Release.ToContentValues(release);
 
         return db.insert(DbHelper.Table_Release
@@ -51,9 +52,42 @@ public class ReleaseHelper {
                 null,
                 null);
 
-        return db.insert(DbHelper.Table_Release
+        ArrayList<Release> releases = Release.GetReleasesByCursor(cursor);
+
+        if(releases.size() == 0)
+            return db.insert(DbHelper.Table_Release
                 ,nullColumnHack
                 ,contentValues);
+        else
+            return releases.get(0).getId();
+    }
+
+    public int DeleteBeer(Release release){
+        return DeleteBeer(release.getId());
+    }
+
+    public int DeleteBeer(Integer idRelease){
+        return db.delete(
+                DbHelper.Table_Release
+                ,"id = ?"
+                ,new String[]{String.valueOf(idRelease)});
+    }
+
+    public int UpdateBeer(Release release){
+        ContentValues contentValues = Release.ToContentValues(release);
+
+        return db.update(DbHelper.Table_Release,
+                contentValues,
+                "id = ?",
+                new String[]{String.valueOf(release.getId())});
+    }
+
+    public int UpdateBeer(Integer idRelease, ContentValues contentValues){
+
+        return db.update(DbHelper.Table_Release,
+                contentValues,
+                "id = ?",
+                new String[]{String.valueOf(idRelease)});
     }
 
 }

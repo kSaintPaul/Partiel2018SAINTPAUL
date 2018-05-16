@@ -51,6 +51,7 @@ public class Release {
 
     public static ArrayList<Release> GetReleasesByCursor(Cursor cursor){
         ArrayList<Release> releases = new ArrayList<>();
+
         Release release;
         while(cursor.moveToNext()){
             release = new Release();
@@ -66,6 +67,8 @@ public class Release {
 
             releases.add(release);
         }
+
+
         return releases;
     }
 
@@ -75,12 +78,12 @@ public class Release {
         contentValues.put("id", release.id);
         contentValues.put("year", release.year);
 
-        if(release.title != null) {contentValues.put("nom", release.title);}
-        if(release.catno != null) {contentValues.put("desc", release.catno);}
-        if(release.resourceUrl != null) {contentValues.put("price", release.resourceUrl);}
-        if(release.artist != null) {contentValues.put("price", release.artist);}
-        if(release.status != null) {contentValues.put("price", release.status);}
-        if(release.thumb != null) {contentValues.put("price", release.thumb);}
+        if(release.title != null) {contentValues.put("title", release.title);}
+        if(release.catno != null) {contentValues.put("catno", release.catno);}
+        if(release.resourceUrl != null) {contentValues.put("resourceUrl", release.resourceUrl);}
+        if(release.artist != null) {contentValues.put("artist", release.artist);}
+        if(release.status != null) {contentValues.put("status", release.status);}
+        if(release.thumb != null) {contentValues.put("thumb", release.thumb);}
 
         return contentValues;
     }

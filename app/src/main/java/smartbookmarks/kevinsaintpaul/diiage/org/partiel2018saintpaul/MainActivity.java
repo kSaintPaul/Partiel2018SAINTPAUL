@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,17 +102,7 @@ public class MainActivity extends AppCompatActivity {
             releases = new ArrayList<>();
 
             try {
-                /*Cursor cursor = db.query(DbHelper.Table_Release,
-                        new String[]{"id", "title"},
-                        null,
-                        null,
-                        null,null, "title DESC");
-
-
-                while(cursor.moveToNext()){
-                    Release release = new Release();
-                    releases.add(release);
-                }*/
+                releaseHelper = new ReleaseHelper(MainActivity.this);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -128,17 +119,21 @@ public class MainActivity extends AppCompatActivity {
                     release.setFormat(jsonObject.getString("format"));
                     release.setTitle(jsonObject.getString("title"));
                     release.setCatno(jsonObject.getString("catno"));
-                    release.setYear(jsonObject.getInt("year"));
+                    release.setYear(jsonObject.optInt("year", 0000));
                     release.setResourceUrl(jsonObject.getString("resource_url"));
                     release.setArtist(jsonObject.getString("artist"));
 
                     releases.add(release);
 
-
+                    long result = releaseHelper.AddReleaseIfNotExist(release, null);
+                    long e = result;
                 }
 
-            }catch (Exception e){
+                ArrayList<Release> zerzer = releaseHelper.GetAllReleases();
+                zerzer.get(0);
 
+            }catch (Exception e){
+                Log.d("Erreur", e.getMessage());
             }
 
 
